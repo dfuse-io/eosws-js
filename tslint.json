@@ -1,15 +1,20 @@
 {
   "defaultSeverity": "error",
   "extends": ["tslint:recommended", "tslint-config-prettier"],
-  "jsRules": {},
+  "jsRules": {
+    "experimentalDecorators": true
+  },
   "rules": {
+    "no-reference": false,
     "object-literal-sort-keys": false,
     "interface-name": false,
     "variable-name": false,
     "ordered-imports": false,
     "no-console": false,
     "only-arrow-functions": false,
-    "no-bitwise": false
+    "no-bitwise": false,
+    "member-access": false,
+    "experimentalDecorators": true
   },
   "rulesDirectory": []
 }

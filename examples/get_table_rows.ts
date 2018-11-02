@@ -7,7 +7,7 @@ ws.onopen = () => {
   ws.send(get_table_rows({ code: "eosio", scope: "eosio", table_name: "global" }))
 }
 
-ws.onmessage = (message) => {
+ws.onmessage = (message: { data: any }) => {
   console.log(JSON.parse(message.data.toString()))
   const table = parse_table_rows<any>(message.data)
 
