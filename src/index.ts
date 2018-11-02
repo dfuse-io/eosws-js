@@ -4,6 +4,8 @@ import { TableRows } from "./types/table_rows"
 export { ActionTrace, Ping, TableRows }
 export * from "./streamers/common"
 export * from "./streamers/info-streamer"
+export * from "./streamers/vote-streamer"
+export * from "./stores"
 
 export interface OptionalParams {
   req_id?: string

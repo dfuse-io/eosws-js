@@ -2,8 +2,8 @@ import * as path from "path"
 import dotenv from "dotenv"
 import WebSocket from "ws"
 
-import { connectionStore, SocketStateStatus } from "./config/connection-store"
-import { log } from "./config/logger"
+import { ConnectionStore, SocketStateStatus } from "./config/connection-store"
+import { log } from "@dfuse/eosws-js"
 
 dotenv.config({ path: path.join(__dirname, "..", ".env") })
 
@@ -21,22 +21,26 @@ if (!DFUSE_IO_API_KEY) {
 const wsUrl = `wss://${DFUSE_IO_ENDPOINT}/v1/stream?token=${DFUSE_IO_API_KEY}`
 
 const origin = "https://github.com/dfuse-io/eosws-js"
-export const ws = new WebSocket(wsUrl, {
+const wsConnection = new WebSocket(wsUrl, {
   origin
 } as any)
 
-ws.onmessage = (message: any) => {
+wsConnection.onmessage = (message: any) => {
+  console.log("on message: ", message)
   connectionStore.onSocketMessage(message)
 }
 
 // @ts-ignore
-ws.onerror = (error: Error, ...args: any[]) => {
-  log.info("Socket received error event.", args)
+wsConnection.onerror = (error: Error, ...args: any[]) => {
   connectionStore.socketState.status = SocketStateStatus.DOWN
   connectionStore.socketState.error = error
 }
 
-ws.onclose = (...args: any[]) => {
-  log.info("Socket received close event.", args)
+wsConnection.onclose = (...args: any[]) => {
   connectionStore.socketState.status = SocketStateStatus.DOWN
 }
+
+export const connectionStore = new ConnectionStore()
+connectionStore.socketConnection = { handle: wsConnection }
+
+export const ws = wsConnection

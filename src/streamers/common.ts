@@ -87,16 +87,21 @@ export abstract class StreamHandler {
   public id: string = guid()
   protected subscriptionMessage: SubscriptionMessage
   protected messageHandlers: { [key: string]: MessageHandler<any> } = {}
-  protected logger: any
+  protected logger: any = undefined
   protected senderFunction: (args: any, args2: any) => any
+  protected callbackFunction: (data: any) => any
 
   constructor(
     subscriptionMessage: SubscriptionMessage,
     senderFunction: (args: any, args2: any) => any,
-    logger: any
+    callbackFunction: (data: any) => any,
+    logger?: any
   ) {
+    this.callbackFunction = callbackFunction
     this.subscriptionMessage = subscriptionMessage
-    this.logger = logger
+    if (logger) {
+      this.logger = logger
+    }
     this.senderFunction = senderFunction
   }
 
@@ -106,12 +111,11 @@ export abstract class StreamHandler {
 
   public handles(messageHandlers: MessageHandlerMap) {
     this.messageHandlers = messageHandlers
-    console.log("message hadnlers: ", this.messageHandlers)
   }
 
   public async subscribe() {
     try {
-      this.logger.info(
+      this.logInfo(
         "About to subscribe to stream type [%s] using id [%s].",
         this.subscriptionMessage.type,
         this.id
@@ -127,11 +131,7 @@ export abstract class StreamHandler {
 
   public async resubscribe() {
     try {
-      this.logger.info(
-        "About to re-subscribe to stream type [%s] using id [%s].",
-        this.type,
-        this.id
-      )
+      this.logInfo("About to re-subscribe to stream type [%s] using id [%s].", this.type, this.id)
 
       await this.sendFlowMessage({ listen: true })
     } catch (error) {
@@ -142,11 +142,7 @@ export abstract class StreamHandler {
 
   public async unsubscribe() {
     try {
-      this.logger.info(
-        "About to unsubscribe from stream type [%s] using id [%s].",
-        this.type,
-        this.id
-      )
+      this.logInfo("About to unsubscribe from stream type [%s] using id [%s].", this.type, this.id)
 
       await this.sendFlowMessage({ listen: false })
 
@@ -206,5 +202,11 @@ export abstract class StreamHandler {
     }
 
     this.onErrorMessage(message)
+  }
+
+  private logInfo(message: string, type: string, id: string) {
+    if (this.logger) {
+      this.logger.info(message, type, id)
+    }
   }
 }

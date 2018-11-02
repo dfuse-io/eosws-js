@@ -1,12 +1,30 @@
-import { SocketErrorMessage, SocketInboundMessage, StreamHandler } from "../../src"
-import { log } from "./logger"
+import { SocketErrorMessage, SocketInboundMessage, StreamHandler } from "@dfuse/eosws-js"
 
 export class StreamStore {
+  protected logger: any = undefined
   private activeStreams: { [key: string]: StreamHandler } = {}
+
+  constructor(logger?: any) {
+    this.logger = logger
+  }
+
+  logError() {
+    if (this.logger) {
+      this.logger.error(
+        "An active subscription already exist with this id, this should never happen."
+      )
+    }
+  }
+
+  logWarn(id: string) {
+    if (this.logger) {
+      this.logger.warn("No stream handler active for id [%s].", id)
+    }
+  }
 
   addStreamHandler(handler: StreamHandler) {
     if (this.activeStreams[handler.id]) {
-      log.error("An active subscription already exist with this id, this should never happen.")
+      this.logError()
     }
 
     this.activeStreams[handler.id] = handler
@@ -58,7 +76,7 @@ export class StreamStore {
   unsubscribeFromStream(id: string) {
     const handler = this.getStreamHandler(id)
     if (handler === undefined) {
-      log.warn("No stream handler active for id [%s].", id)
+      this.logWarn(id)
       return
     }
 

@@ -1,13 +1,14 @@
 import { observable } from "mobx"
-import { SocketOutboundMessage } from "../../src"
+import { SocketOutboundMessage } from "@dfuse/eosws-js"
 import { retryUntilStrategy } from "./rxs"
 import { streamStore } from "./stream-store"
-import { log } from "./logger"
 import { SocketConnectionDownError } from "./socket-connection-down-error"
+import { log } from "@dfuse/eosws-js"
+import WebSocket from "ws"
 
 export interface SocketConnection {
   handle: WebSocket
-  dispose: () => void
+  dispose?: () => void
 }
 
 export interface SocketState {
@@ -52,7 +53,6 @@ export class ConnectionStore {
     if (this.socketConnection === undefined) {
       throw new SocketConnectionDownError()
     }
-
     log.debug("Sending message through web socket.", message)
     this.socketConnection!.handle.send(JSON.stringify(message))
   }
@@ -80,8 +80,6 @@ export class ConnectionStore {
     streamStore.notifyStreamHandlers(message)
   }
 }
-
-export const connectionStore = new ConnectionStore()
 
 function parseMessage(message: MessageEvent): any {
   // FIXME: Deal with JSON parsing error
