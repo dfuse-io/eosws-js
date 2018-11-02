@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "experimentalDecorators": true,
     /* Basic Options */
     "target": "es6",
     "module": "commonjs",

@@ -2,8 +2,6 @@
   "name": "@dfuse/eosws-js",
   "version": "0.10.0-alpha.3",
   "description": "`eosws` JavaScript/TypeScript bindings (from the [dfuse API](https://dfuse.io/))",
-
-
   "main": "dist/index.js",
   "types": "dist/index.d.js",
   "files": [
@@ -48,12 +46,16 @@
     ]
   },
   "devDependencies": {
+    "mobx": "^4.1.1",
+    "sockette": "^2.0.0",
     "@types/dotenv": "^4.0.3",
+    "@types/pino": "^4.7.1",
     "@types/ws": "^6.0.1",
     "documentation": "^8.1.2",
     "dotenv": "^6.1.0",
     "husky": "^1.1.2",
     "lint-staged": "^7.3.0",
+    "pino": "^4.16.1",
     "prettier": "^1.14.3",
     "pretty-quick": "^1.8.0",
     "ts-node": "^7.0.1",
