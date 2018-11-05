@@ -8,11 +8,7 @@ ws.onopen = () => {
 }
 
 ws.onmessage = (message: any) => {
-  console.log(JSON.parse(message.data.toString()))
-  const actions = parse_actions<any>(message.data)
+  const actions = parse_actions(message.data)
 
-  if (actions) {
-    const { from, to, quantity, memo } = actions.data.trace.act.data
-    console.log(from, to, quantity, memo)
-  }
+  console.log("ACTIONS:", actions)
 }

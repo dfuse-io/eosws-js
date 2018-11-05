@@ -43,7 +43,7 @@ export class StreamStore {
   }
 
   notifyStreamHandlers(message: SocketInboundMessage<any> | SocketErrorMessage) {
-    const handlers = this.getStreamHandlers()
+    const handlers: StreamHandler[] = this.getStreamHandlers()
     handlers.forEach((handler: StreamHandler) => handler.onSocketMessage(message as any))
   }
 

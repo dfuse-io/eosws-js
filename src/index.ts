@@ -1,4 +1,4 @@
-import { ActionTrace } from "./types/action_trace"
+import { ActionTrace } from "./types/transaction"
 import { Ping } from "./types/ping"
 import { TableRows } from "./types/table_rows"
 export { ActionTrace, Ping, TableRows }
@@ -191,13 +191,14 @@ export function generateReqId() {
  *
  * const actions = parse_actions<any>(message);
  */
-export function parse_actions<T>(data: WebSocketData, req_id?: string): ActionTrace<T> | null {
+export function parse_actions(data: WebSocketData, req_id?: string): ActionTrace | null {
   const message = parse_message(data)
   if (message.type === "action_trace") {
     if (req_id && message.req_id !== req_id) {
       return null
     }
-    return message
+
+    return message.data as ActionTrace
   }
   return null
 }
