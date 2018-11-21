@@ -56,7 +56,7 @@ export class EoswsClient {
     return this.createListenerWithSend(getTransactionLifecycleMessage({ id }, options))
   }
 
-  private createListenerWithSend(message: OutboundMessage<any>) {
+  protected createListenerWithSend(message: OutboundMessage<any>) {
     const reqId = message.req_id!
     const onMessage = (callback: SocketMessageListener) => {
       this.listeners.addListener({ reqId, callback })
