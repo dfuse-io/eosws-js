@@ -1,3 +1,9 @@
+# DEPRECATED - In favor of https://github.com/dfuse-io/client-js
+
+
+----------
+
+
 # `eosws` JavaScript/TypeScript bindings (from the [dfuse API](https://dfuse.io/))
 
 WebSocket consumer for the <https://dfuse.io> API on EOS networks.
