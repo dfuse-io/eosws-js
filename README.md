@@ -4,13 +4,13 @@ WebSocket consumer for the <https://dfuse.io> API on EOS networks.
 
 ## Deprecated
 
-**IMPORTANT** This library is now deprecated and is not maintained anymore.
+**IMPORTANT** This library is now deprecated and is not actively maintained anymore.
 
 We transform it into a full blown dfuse API Client Library. We highly recommend to upgrade,
-to profit from automatic authentication handling, supported HTTP API, streamlined overall usage of
-the library and all the latest goodies of dfuse API. We have prepare an extensive
-[Migration Guide](https://github.com/dfuse-io/client-js/MIGRATION.md) so you can migrate
-from this library to the latest version like a breeze.
+to profit from automatic authentication handling, full dfuse REST API, automatic re-connect
+and stream restart, streamlined overall usage of the library and all the latest goodies of
+dfuse API. We have prepared an extensive [Migration Guide](https://github.com/dfuse-io/client-js/blob/master/MIGRATION.md)
+so you can migrate from this library to the latest version like a breeze.
 
 The development now occurs at https://github.com/dfuse-io/client-js.
 
